@@ -1,0 +1,121 @@
+CREATE DATABASE securehospitals;
+--DROP TABLE IF EXISTS users_roles;
+--DROP TABLE IF EXISTS roles;
+--DROP TABLE IF EXISTS users;
+
+CREATE TABLE users (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  phone_number VARCHAR(20) NOT NULL,
+  email VARCHAR(256) NOT NULL,
+  password VARCHAR(64) NOT NULL,
+  first_name VARCHAR(25) NOT NULL,
+  last_name VARCHAR(25) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_users PRIMARY KEY (id),
+  CONSTRAINT uq_users_email UNIQUE (email),
+  CONSTRAINT uq_users_phone_number UNIQUE (phone_number)
+);
+
+
+CREATE TABLE roles (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(45) NOT NULL,
+  CONSTRAINT pk_roles PRIMARY KEY (id),
+  CONSTRAINT uq_roles_name UNIQUE (name)
+);
+
+
+CREATE TABLE users_roles (
+  user_id BIGINT UNSIGNED NOT NULL,
+  role_id BIGINT UNSIGNED NOT NULL,
+  CONSTRAINT pk_users_roles PRIMARY KEY (user_id, role_id),
+  CONSTRAINT fk_users_roles_user FOREIGN KEY (user_id) REFERENCES users(id),
+  CONSTRAINT fk_users_roles_role FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+INSERT INTO roles (name) VALUES ('USER');
+INSERT INTO roles (name) VALUES ('ADMIN');
+
+CREATE TABLE bikes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price_per_day DECIMAL(10,2),
+    image_path VARCHAR(255),
+    description TEXT
+);
+
+    
+
+
+INSERT INTO bikes (name, price_per_day, image_path, description) VALUES
+('Royal Enfield Classic', 800, 'img/royalenfield.jpg', 'A powerful cruiser bike.'),
+('Honda Activa 125', 500, 'img/honda.jpeg', 'Perfect for city rides.'),
+('Bajaj Pulsar NS200', 650, 'img/pulsar.jpg', 'Sporty and stylish.'),
+('KTM Rc 390',700,'img/ktm.jpg','High performance supersports machine.'),
+('Himalayan 450','800','img/himalayan.jpg','sports.'),
+('TVS Ntorq','400','img/tvsntorq.jpg','city);
+('Duke','500','img/duke.png','sports bike'),
+('Apache RTR','500','img/apache.jpg','High performance machine'),
+('FZ','400','img/FZ.jpg','perfect city ride');
+('Hero-pleasure',200,'img/Hero-Pleasure.jpg','High Mileage scooty'),
+('Pulsar-220',400,'img/pulsar-220.jpg','Definitely Male'),
+('Fascino-125',350,'img/Fascino.jpg','Emphasizes the scooter style design'),
+('TVS Jupiter125',400,'img/TVS Jupiter 125.jpg','Zyada Se Bhi Zyada'),
+('Pulsar 150',500,'img/bajaj-pulsar-150cc.jpg','Definitely Male'),
+('Bajaj-Avenger220',600,'img/bajaj avenger.jpg','Feel Like God'),
+('Platina 125',400,'img/platina 125.jpg','The Perfect Blend of Comfort and Mileage'),
+('Yamaha R15','1000','img/r15.jpg','Revs Your Heart'),
+('Splendor',200,'img/splendor.jpg','Feels like family'),
+('OLA-S1-pro',300,'img/OLA-S1-Pro.jpg','Engineered to Thrill'),
+('Ather 450x',250,'img/Ather.jpg','Bike of Scooters'),
+('Aprilla-SR160',400,'img/Aprilla sr160.jpg','Be a Racer'),
+('Continental GT 650',1000,'img/continantial gt 650.jpg','Retro Racer Dreams Unlocked'),
+('Honda Dio',300,'img/dio.jpg','Dio Wanna Have Fun'),
+('Vespa',400,'img/vespa.jpg','Lets Vespa'),
+('Royal Enfiels Hunter 350',700,'img/royal enfield hunter 350.jpg','Hunter 350 KeepHunting'),
+('Ather Rizta',400,'img/ather-rizta.jpg','The Best Family EV Scooter'),
+('Harley-Davidson',1000,'img/harley davidson.jpg','All for Freedom,Freedom for All'),
+('Himalayan',800,'img/Himalayan1.jpg','wellness in Every Home'),
+('Suzuki Gixxer-250',600,'img/suzuki.jpg','Best in the World'),
+('Shine-125',300,'img/shine.jpg','Mileage bike');
+
+
+
+
+
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    bike_id INT NOT NULL,
+    user_id BIGINT UNSIGNED,
+    customer_name VARCHAR(100),
+    phone VARCHAR(20),
+    start_date DATE,
+    end_date DATE,
+    status VARCHAR(30),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_bike_users FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+
+UPDATE bikes SET city = 'Bangalore' WHERE id IN (1, 4, 5);
+UPDATE bikes SET city = 'Mysore' WHERE id IN (2, 6, 8);
+UPDATE bikes SET city = 'Hubli' WHERE id IN (3, 7, 9);
+UPDATE bikes SET city = 'Mangalore' WHERE id IN(10,11,12,18);
+UPDATE bikes SET city = 'Belgaum' WHERE id IN(13,14,15,16,17);
+
+
+CREATE TABLE contact_messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    message TEXT,
+    submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+ALTER TABLE contact_messages 
+ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+
+
